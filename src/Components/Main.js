@@ -203,14 +203,14 @@ export default function MainApp({setToken}) {
           component="main"
           sx={{
             backgroundColor: theme.palette.grey[100],
-            flexGrow: 1,
-            height: '100vh',
-            width:"100%",
-            overflow: 'auto',
+            //overflow: 'auto',
+            flex:1,
+            flexDirection: "column",
+            height: "100vh",
             p:2
           }}
         >
-        <URLHandler />
+          <URLHandler />
         </Box>
       </Main>
       </Router>
