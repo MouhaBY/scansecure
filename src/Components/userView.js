@@ -23,9 +23,15 @@ export default function UserView() {
             </Grid>
             <form>
                 <Grid container spacing={2}>
-                <Grid item xs={12}>
-                Id : {id}
-                </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="standard"
+                            value={id}
+                            disabled
+                            id="id"
+                            label="Id"
+                        />
+                    </Grid>
                     <Grid item xs={12}>
                         <TextField
                             variant="outlined"
@@ -74,10 +80,18 @@ export default function UserView() {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={1}>
-                        {" Actif : "}
+                        <TextField
+                            variant="standard"
+                            fullWidth
+                            disabled
+                            id="isactif"
+                            label="Actif"
+                            value=""
+                        />
                     </Grid>
-                    <Grid item xs={12} sm={11}>
-                        {user.isActif ? <CheckCircleRoundedIcon style={{fill: "green"}}/> : <CancelRoundedIcon style={{fill: "red"}}/>}
+                    <Grid item xs={12} sm={10} style={{display:'flex', alignItems:'center'}}>
+                        {user.isActif ? 
+                        <CheckCircleRoundedIcon style={{fill: "green"}}/> : <CancelRoundedIcon style={{fill: "red"}}/>}
                     </Grid>
                 </Grid>
             </form>
