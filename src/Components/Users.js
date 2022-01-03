@@ -9,10 +9,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from "react-router-dom";
 
 const brut = [
-    {_id:1, username:'MBY', contact:'Mouha', profile:'Admin', isActif:true}, 
-    {_id:2, username:'ZJA', contact:'Zied Jaziri', profile:'User', isActif:true},
-    {_id:3, username:'BBO', contact:"Bouthaina BOUHOULI", profile:"Guest", isActif:true},
-    {_id:4, username:'BYA', contact:"Bayrem YAHYAOUI", profile:"Guest", isActif:false}
+    {_id:1, username:'MBY', contact:'Mouha', profile:{_id:'Admin', name:"Administrateur"}, isActif:true}, 
+    {_id:2, username:'ZJA', contact:'Zied Jaziri', profile:{_id:'User', name:"Utilisateur"}, isActif:true},
+    {_id:3, username:'BBO', contact:"Bouthaina BOUHOULI", profile:{_id:'Guest', name:"Visiteur"}, isActif:true},
+    {_id:4, username:'BYA', contact:"Bayrem YAHYAOUI", profile:{_id:'Guest', name:"Visiteur"}, isActif:false}
 ]
 
 
@@ -85,12 +85,14 @@ export default function Users() {
                         <TableRow key={row._id}>
                             <TableCell>{row.username}</TableCell>
                             <TableCell>{row.contact}</TableCell>
-                            <TableCell>{row.profile}</TableCell>
+                            <TableCell>{row.profile.name}</TableCell>
                             <TableCell>{row.isActif ? <CheckCircleRoundedIcon style={{fill: "green"}}/> : <CancelRoundedIcon style={{fill: "red"}}/>}</TableCell>
                             <TableCell align="right">
-                                <IconButton aria-label="show" >
-                                    <VisibilityIcon />
-                                </ IconButton>
+                                <Link to={`./view/${row._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <IconButton aria-label="show" >
+                                        <VisibilityIcon />
+                                    </ IconButton>
+                                </Link>                    
                                 <IconButton aria-label="edit">
                                     <EditIcon />
                                 </ IconButton>

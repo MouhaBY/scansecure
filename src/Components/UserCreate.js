@@ -4,10 +4,10 @@ import { Button, TextField, Grid, Typography, Paper, FormControl, InputLabel, Se
 
 
 const profiles = [
-  {id:"superadmin", name:"Super Administrateur"},
-  {id:"admin", name:"Administrateur"},
-  {id:"user", name:"Utilisateur"},
-  {id:"guest", name:"Visiteur"}
+  {_id:"superadmin", name:"Super Administrateur"},
+  {_id:"admin", name:"Administrateur"},
+  {_id:"user", name:"Utilisateur"},
+  {_id:"guest", name:"Visiteur"}
 ]
 
 /*const useStyles = makeStyles((theme) => ({
@@ -141,7 +141,7 @@ export default function UserCreate() {
                 value={profile}
                 onChange={(e) => setProfile(e.target.value)}
                 >{
-                  profiles.map(profile => <MenuItem key={profile.id} value={profile.id}>{profile.name}</MenuItem>)
+                  profiles.map(profile => <MenuItem key={profile._id} value={profile._id}>{profile.name}</MenuItem>)
                 }                  
                 </Select>
             </FormControl>
