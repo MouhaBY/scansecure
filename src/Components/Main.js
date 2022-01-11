@@ -139,12 +139,14 @@ export default function MainApp({setToken}) {
               </ListItemIcon>
               <ListItemText primary="Journal" />
             </ListItem>
+          <RouterLink to="timeactivities" style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem button >
               <ListItemIcon>
                 <AccessTimeOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary="Temps & Activités" />
             </ListItem>
+            </RouterLink>
         </List>
         <Divider />
         <List>

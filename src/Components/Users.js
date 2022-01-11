@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
 import { Paper, Grid, Typography, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, 
-    IconButton, Button, FormControl, InputLabel, Select, MenuItem  } from '@mui/material';
+    IconButton, Button, FormControl, InputLabel, Select, MenuItem, Alert  } from '@mui/material';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from "react-router-dom";
+import AlertDeleteUser from "./AlertDeleteUser";
+
 
 const brut = [
     {_id:1, username:'MBY', contact:'Mouha', profile:{_id:'Admin', name:"Administrateur"}, isActif:true}, 
@@ -21,6 +23,12 @@ export default function Users() {
     const [page, setPage] = React.useState(0);
     const [filterUsers, setFilterUsers] = React.useState(true);
     const [rows, setRows] = React.useState([]);
+    const [open, setOpen] = React.useState(false);
+    const [userId, setUserId] = React.useState();
+    const [showSuccess, setShowSuccess] = React.useState(false);
+    const [showError, setShowError] = React.useState(false);
+
+
 
     useEffect(() => {
         let __rows = brut.filter(row => row.isActif === filterUsers);
@@ -45,12 +53,34 @@ export default function Users() {
     // Avoid a layout jump when reaching the last page with empty rows.
     //const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const handleClose = () => {
+        setOpen(false);
+        setShowError(true)
+        setTimeout(() => {
+            setShowError(false)
+        }, 3000)
+    };
+
+    const handleClickOpen = (userCredentials) => {
+        setOpen(true);
+        setUserId(userCredentials)
+    };
+
+    const handleDeleteUser = () => {
+        setOpen(false);
+        setShowSuccess(true);
+        setTimeout(() => {
+            setShowSuccess(false)
+        }, 3000)
+    }
+
     return (
         <Grid item >
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <Typography component="h2" variant="h6" color="primary" gutterBottom>
                     Utilisateurs
                 </Typography>
+
                 <Grid style={{display:"flex", flexDirection:"row", alignItems:"flex-end", justifyContent:"flex-end", marginTop:5, marginBottom:20}}>
                     <FormControl variant='standard' style={{width:'auto', marginRight:10 }}>
                         <InputLabel id="select-filter">Etat</InputLabel>
@@ -69,6 +99,13 @@ export default function Users() {
                         <Button variant="contained">Ajouter</Button>
                     </Link>
                 </Grid>
+                {showSuccess &&
+                    <Alert severity="success">Utilisateur supprimé !</Alert>
+                }
+                {showError &&
+                    <Alert severity="error">Suppression annulée !</Alert>
+                }
+                <AlertDeleteUser open={open} handleClose={handleClose} user={userId} handleDelete={handleDeleteUser}/>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
@@ -96,7 +133,7 @@ export default function Users() {
                                 <IconButton aria-label="edit">
                                     <EditIcon />
                                 </ IconButton>
-                                <IconButton aria-label="delete">
+                                <IconButton aria-label="delete" onClick={()=>handleClickOpen(row)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </TableCell>

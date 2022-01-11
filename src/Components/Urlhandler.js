@@ -5,6 +5,7 @@ import NotFoundPage from "./NotFoundPage";
 import Users from './Users';
 import UserCreate from './UserCreate';
 import UserView from './userView';
+import TimeActivities from './TimeActivities';
 
 
 export default function Urlhandler() {
@@ -16,6 +17,7 @@ export default function Urlhandler() {
                 <Route path="/users/add" element={<UserCreate/>}/>
                 <Route path="/users/view/:id" element={<UserView/>}/>
                 <Route path="/employees" element={<Employees/>}/>
+                <Route path="/timeactivities" element={<TimeActivities/>}/>
             </Routes>
     )
 }
