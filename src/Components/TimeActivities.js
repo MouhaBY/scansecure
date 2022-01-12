@@ -1,7 +1,7 @@
 import { Grid, Paper, Stack, Table, TableBody, TableCell, TableHead, 
     TablePagination, TableRow, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
-import {employees} from './EmployeesData'
+import {employees, presence} from './EmployeesData'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
@@ -11,13 +11,14 @@ import nextSunday from 'date-fns/nextSunday';
 import previousMonday from 'date-fns/previousMonday';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday'
+import { intervalToDuration, getDay } from 'date-fns';
 
 
 
 export default function TimeActivities() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
-    const [dateRowsPerPage, setDateRowsPerPage] = React.useState(10);
+    const [dateRowsPerPage, setDateRowsPerPage] = React.useState(7);
     const [datePage, setDatePage] = React.useState(0);
     
     const [rows, setRows] = React.useState([]);
@@ -25,6 +26,7 @@ export default function TimeActivities() {
     const [dateFrom, setDateFrom] = React.useState();
     const [dateTo, setDateTo] = React.useState();
     const [dateInterval, setDateInterval] = React.useState([]);
+    const [userPresence, setUserPresence] = React.useState([]);
 
 
     useEffect(() => {
@@ -39,10 +41,11 @@ export default function TimeActivities() {
         let result = [];
         if(dateTo && dateFrom){
             if (dateTo === dateFrom){
-                result = [dateTo]
+                result = [dateTo];
             }
             else if (compareAsc(dateFrom, dateTo)>0){
-                result = []
+                setDateTo(dateFrom);
+                result = [dateFrom];
             }
             else {
                 result = eachDayOfInterval({
@@ -53,6 +56,11 @@ export default function TimeActivities() {
         }
         setDateInterval(result)
     }, [dateFrom, dateTo])
+
+    useEffect(() => {
+        let employee_presence = presence.filter((present)=>(selectedRow?._id === present.employee_id))
+        setUserPresence(employee_presence)
+    }, [selectedRow]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -203,33 +211,47 @@ export default function TimeActivities() {
                     <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Jour</TableCell>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Entrée</TableCell>
-                                <TableCell>Sortie</TableCell>
-                                <TableCell>Etat</TableCell>
-                                <TableCell>Théorique</TableCell>
-                                <TableCell>Effectué</TableCell>
-                                <TableCell>Différence</TableCell>
-                                <TableCell>Commentaire</TableCell>
+                                <TableCell >Jour</TableCell>
+                                <TableCell >Date</TableCell>
+                                <TableCell align="center">Entrée</TableCell>
+                                <TableCell align="center">Sortie</TableCell>
+                                <TableCell align="center">Etat</TableCell>
+                                <TableCell align="center">Théorique</TableCell>
+                                <TableCell align="center">Effectué</TableCell>
+                                <TableCell align="center">Différence</TableCell>
+                                <TableCell >Commentaire</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                         {dateInterval
                         .slice(datePage * dateRowsPerPage, datePage * dateRowsPerPage + dateRowsPerPage)
-                        .map((row) => (
-                            <TableRow selected={isToday(row)}>
+                        .map((row, index) => 
+                        {   
+                            let d = format(row, 'dd/MM/yyyy');
+                            let presence_day = userPresence.find(element => d === element.date);
+                            let work_day = selectedRow?.timesheetDetails.find(element => element.dayId === getDay(row));
+                            /*let startTime = 
+                            let endTime = 
+                            let difference = 
+                            */
+
+                        return(
+                            <TableRow key={index} selected={isToday(row)}>
                                 <TableCell>{format(row, 'EEEE')}</TableCell>
                                 <TableCell>{format(row, 'dd/MM/yyyy')}</TableCell>
-                                <TableCell>{"00:00"}</TableCell>
-                                <TableCell>{"00:00"}</TableCell>
-                                <TableCell>{""}</TableCell>
-                                <TableCell>{"00:00"}</TableCell>
-                                <TableCell>{"00:00"}</TableCell>
-                                <TableCell>{"00:00"}</TableCell>
-                                <TableCell>{""}</TableCell>
+                                <TableCell align="center">{presence_day && intervalToDuration({ start: 0, end: presence_day?.firstIn })?.hours + ":00"}</TableCell>
+                                <TableCell align="center">{presence_day && intervalToDuration({ start: 0, end: presence_day?.lastOut })?.hours + ":00"}</TableCell>
+                                <TableCell align="center">{work_day && presence_day && 
+                                    intervalToDuration({start:presence_day?.firstIn, end:presence_day?.lastOut}).hours - work_day?.theorical - work_day?.break >=0 ? "+" : "-"
+                                }</TableCell>
+                                <TableCell align="center">{work_day && work_day?.theorical + ":00"}</TableCell>
+                                <TableCell align="center">{presence_day && work_day && ((intervalToDuration({start:presence_day?.firstIn, end:presence_day?.lastOut}).hours || 0) - work_day?.break) + ":00"}</TableCell>
+                                <TableCell align="center">{(work_day && work_day?.theorical && presence_day && 
+                                    (intervalToDuration({start:presence_day?.firstIn, end:presence_day?.lastOut}).hours  - work_day?.theorical - work_day?.break) + ":00") || (- work_day?.theorical || 0 - work_day?.break || 0) +":00"
+                                }</TableCell>
+                                <TableCell>{presence_day?.comment || ""}</TableCell>
                             </TableRow>
-                        ))}
+                        )})}
                         </TableBody>
                     </Table>
                     <TablePagination

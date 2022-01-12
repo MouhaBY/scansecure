@@ -8,6 +8,7 @@ export const employees = [
         timesheet:"Cadres",
         timesheetDetails:[
             {
+                dayId:1,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -16,6 +17,16 @@ export const employees = [
                 break:1
             },
             {
+                dayId:2,
+                _id:"1",
+                name:"H. Cadres",
+                firstIn:8,
+                lastOut:17,
+                theorical:8,
+                break:1
+            },
+            {   
+                dayId:3,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -24,6 +35,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:4,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -32,6 +44,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:5,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -40,14 +53,7 @@ export const employees = [
                 break:1
             },
             {
-                _id:"1",
-                name:"H. Cadres",
-                firstIn:8,
-                lastOut:17,
-                theorical:8,
-                break:1
-            },
-            {
+                dayId:6,
                 _id:"2",
                 name:"Demi Repos",
                 firstIn:8,
@@ -56,6 +62,7 @@ export const employees = [
                 break:0
             },
             {
+                dayId:0,
                 _id:"3",
                 name:"Jours Repos",
                 firstIn:0,
@@ -74,6 +81,7 @@ export const employees = [
         timesheet:"Administratif",
         timesheetDetails:[
             {
+                dayId:1,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -82,6 +90,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:2,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -90,6 +99,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:3,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -98,6 +108,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:4,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -106,6 +117,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:5,
                 _id:"1",
                 name:"H. Cadres",
                 firstIn:8,
@@ -114,6 +126,7 @@ export const employees = [
                 break:1
             },
             {
+                dayId:6,
                 _id:"3",
                 name:"Jours Repos",
                 firstIn:0,
@@ -122,6 +135,7 @@ export const employees = [
                 break:0
             },
             {
+                dayId:0,
                 _id:"3",
                 name:"Jours Repos",
                 firstIn:0,
@@ -203,31 +217,31 @@ export const presence = [
     {
         _id:"1",
         employee_id:"1",
-        date:"2021-10-18",
-        firstIn:8,
-        lastOut:17,
-        comment:""
+        date:"10/01/2022",
+        firstIn:28800000,
+        lastOut:61200000,
+        comment:"RàS"
     },
     {
         _id:"2",
         employee_id:"1",
-        date:"2021-10-23",
-        firstIn:8,
-        lastOut:12,
+        date:"11/01/2022",
+        firstIn:28800000,
+        lastOut:57600000,
         comment:"Sortie anticipée via autorisation verbale"
     },
     {
         _id:"3",
         employee_id:"1",
-        date:"2021-10-19",
-        firstIn:8,
-        lastOut:19,
-        comment:"extra work non facturé"
+        date:"12/01/2022",
+        firstIn:28800000,
+        lastOut:68400000,
+        comment:"Extra work non facturé"
     },
     {
         _id:"4",
         employee_id:"1",
-        date:"2021-10-20",
+        date:"12/01/2022",
         firstIn:9,
         lastOut:18,
         comment:""
